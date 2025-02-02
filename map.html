@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>collection route map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            text-align: center;
+            font-family: monospace;
+        }
+        #map {
+            height: 500px;
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+        #bookmarks {
+            margin-top: 10px;
+            padding: 10px;
+            background: #222;
+            border-radius: 10px;
+            display: inline-block;
+            text-align: left;
+        }
+        #bookmarks li {
+            list-style: none;
+            padding: 5px 10px;
+            border-bottom: 1px solid #555;
+            cursor: pointer;
+        }
+        #bookmarks li:hover {
+            background: #333;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-family: monospace;
+        }
+        button:hover {
+            background-color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h2>waste collection route map</h2>
+    <button onclick="clearBookmarks()">Clear Bookmarks</button>
+    <div id="map"></div>
+    <h3>Bookmarked Locations</h3>
+    <ul id="bookmarks"></ul>
+    
+    <script>
+        let map = L.map('map').setView([40.7128, -74.0060], 10);
+        let markers = [];
+        let bookmarks = [];
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        map.on('click', function(event) {
+            addBookmark(event.latlng);
+        });
+
+        function addBookmark(location) {
+            const name = prompt("Enter a name for this location:");
+            if (!name) return;
+            const description = prompt("Enter a description for this location:");
+            
+            const popupContent = `<b>${name}</b><br>${description}`;
+            const marker = L.marker([location.lat, location.lng]).addTo(map)
+                .bindPopup(popupContent)
+                .openPopup();
+            
+            markers.push(marker);
+            bookmarks.push({ name, description, position: location });
+            updateBookmarkList();
+        }
+
+        function updateBookmarkList() {
+            const list = document.getElementById("bookmarks");
+            list.innerHTML = "";
+            bookmarks.forEach((bookmark, index) => {
+                const li = document.createElement("li");
+                li.innerHTML = `<strong>${bookmark.name}</strong><br><small>${bookmark.description}</small>`;
+                li.onclick = () => {
+                    map.setView([bookmark.position.lat, bookmark.position.lng], 15);
+                };
+                list.appendChild(li);
+            });
+        }
+
+        function clearBookmarks() {
+            markers.forEach(marker => map.removeLayer(marker));
+            markers = [];
+            bookmarks = [];
+            updateBookmarkList();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Waste Management Services</title>
+    <link rel="stylesheet" href="sts.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Make a Payment</h2>
+        <p>Please fill in your payment details below to complete your transaction or scan the QR code for easier payment.</p>
+
+        <form id="paymentForm">
+            <label for="name">Cardholder's Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="cardNumber">Card Number:</label>
+            <input type="text" id="cardNumber" name="cardNumber" maxlength="16" required>
+
+            <label for="expiryDate">Expiry Date:</label>
+            <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" name="cvv" maxlength="3" required>
+
+            <label for="totalAmount">Total Amount (Rs.):</label>
+            <input type="number" id="totalAmount" name="totalAmount"  required>
+
+            <button type="submit">Pay Now</button>
+        </form>
+
+        <!-- QR Code section -->
+        <div id="qrCodeSection">
+            <p>Or scan the QR code to make the payment:</p>
+            <div id="qrCode"></div>
+        </div>
+
+        <div id="paymentResponse" class="form-response"></div>
+    </div>
+
+    <script>
+        document.getElementById('paymentForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            processPayment();
+        });
+
+        function processPayment() {
+            var name = document.getElementById('name').value;
+            var cardNumber = document.getElementById('cardNumber').value;
+            var expiryDate = document.getElementById('expiryDate').value;
+            var cvv = document.getElementById('cvv').value;
+            var totalAmount = parseFloat(document.getElementById('totalAmount').value);
+
+            var responseMessage = document.getElementById('paymentResponse');
+
+            if (name && cardNumber && expiryDate && cvv && totalAmount > 0) {
+                responseMessage.innerHTML = `<strong>✅ Payment Successful! Thank you, ${name}.</strong><br>Total Amount Paid: Rs. ${totalAmount}`;
+                responseMessage.style.color = 'green';
+                document.getElementById('paymentForm').reset();
+            } else {
+                responseMessage.innerHTML = `<strong>❌ Please fill out all fields and make sure the amount is correct.</strong>`;
+                responseMessage.style.color = 'red';
+            }
+        }
+
+        // Generate QR Code for payment
+        function generateQRCode() {
+            // Sample payment link (replace with actual link)
+            var paymentLink = "https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" + document.getElementById('totalAmount').value;
+            QRCode.toCanvas(document.getElementById("qrCode"), paymentLink, function (error) {
+                if (error) console.error(error);
+                console.log('QR Code generated!');
+            });
+        }
+
+        // Call QR code generation when the page loads
+        window.onload = generateQRCode;
+    </script>
+
+</body>
+</html>

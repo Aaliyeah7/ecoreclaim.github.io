@@ -1,0 +1,85 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    background-color: #007B5F;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+header nav ul li {
+    display: inline;
+    margin: 0 15px;
+    color: white;
+}
+
+/* Guide Section */
+.guide {
+    background-color: #ffffff;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.guide h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.guide p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.recycle-category {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.recycle-category h3 {
+    font-size: 1.8em;
+    color: #007B5F;
+    margin-bottom: 10px;
+}
+
+.recycle-category p {
+    font-size: 1.1em;
+}
+
+.recycle-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+footer {
+    background-color: #007B5F;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+footer p {
+    font-size: 1em;
+    margin-top: 10px;
+}

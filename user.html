@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Categories Input</title>
+    <link rel="stylesheet" href="styl.css">
+</head>
+<body>
+
+    <h2>Waste Categories Input</h2>
+    
+    <form id="wasteForm">
+        <label for="paperWaste">Paper Waste (sack):</label>
+        <input type="number" id="paperWaste" name="paperWaste">
+
+        <label for="plasticWaste">Plastic Waste (sack):</label>
+        <input type="number" id="plasticWaste" name="plasticWaste">
+
+        <label for="eWaste">Electronic Waste (sack):</label>
+        <input type="number" id="eWaste" name="eWaste">
+
+        <label for="plasticBottles">Plastic Bottles (sack):</label>
+        <input type="number" id="plasticBottles" name="plasticBottles">
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="totalAmount"></div>
+
+    <script>
+        document.getElementById('wasteForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            checkEligibilityAndCalculate();
+        });
+
+        function checkEligibilityAndCalculate() {
+            var paperWaste = parseFloat(document.getElementById('paperWaste').value) || 0;
+            var plasticWaste = parseFloat(document.getElementById('plasticWaste').value) || 0;
+            var eWaste = parseFloat(document.getElementById('eWaste').value) || 0;
+            var plasticBottles = parseFloat(document.getElementById('plasticBottles').value) || 0;
+
+            var totalAmount = 0;
+            var message = '';
+
+            if (paperWaste >= 2) {
+                totalAmount += paperWaste * 30;
+            } else {
+                message += '❌ Paper Waste is less than 2 sacks.<br>';
+            }
+
+            if (plasticWaste >= 2) {
+                totalAmount += plasticWaste * 50;
+            } else {
+                message += '❌ Plastic Waste is less than 2 sacks.<br>';
+            }
+
+            if (eWaste >= 1) {
+                totalAmount += eWaste * 100;
+            } else {
+                message += '❌ electronic Waste is less than 1 sack.<br>';
+            }
+
+            if (plasticBottles >= 2) {
+                totalAmount += plasticBottles * 50;
+            } else {
+                message += '❌ Plastic Bottles are less than 2 sacks.<br>';
+            }
+
+            var outputDiv = document.getElementById('totalAmount');
+            if (totalAmount > 0) {
+                outputDiv.innerHTML = `<strong>✅ Total Payable Amount: Rs. ${totalAmount}</strong>`;
+            } else {
+                outputDiv.innerHTML = `<strong>Not eligible for waste collection.</strong><br>` + message;
+            }
+        }
+    </script>
+
+        <button class="payment" onclick="location.href='./pay.html';">Payment</button>
+
+
+</body>
+</html>
